@@ -1,0 +1,22 @@
+README.md
+  s_47165685b1424a::t_4d454c0429acc4 27
+  s_47165685b1424a::t_a3e8b3fa92d0c8 21
+RaycasterCore.c
+  s_47165685b1424a::t_796989f7d2d5cd 95-126
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "beaaef37cd2975335ea3e5486775e2299c4146ad",
+  "prompts": {},
+  "sessions": {
+    "s_47165685b1424a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f6d7bd226ffe41YnXXdS0qRnzd",
+        "model": "big-pickle"
+      },
+      "human_author": "Sasha Jaroshevskii 🦄 <72662383+jaroshevskii@users.noreply.github.com>"
+    }
+  }
+}
