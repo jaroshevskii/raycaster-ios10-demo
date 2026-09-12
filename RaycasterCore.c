@@ -71,6 +71,8 @@ void rc_init(void) {
 }
 
 void rc_render(unsigned char *out, int w, int h) {
+    unsigned int *px = (unsigned int *)out;
+    for (int i = 0; i < w * h; i++) px[i] = 0xFF000000u;
     for (int x = 0; x < w; x++) {
         double cameraX = 2 * x / (double)w - 1;
         double rayDirX = dirX + planeX * cameraX;
