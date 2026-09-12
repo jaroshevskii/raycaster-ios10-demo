@@ -14,6 +14,36 @@
 	<string>RaycasterDemo</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>Icon-167</string>
+				<string>Icon-76</string>
+				<string>Icon-72</string>
+				<string>Icon-Small-50</string>
+				<string>Icon-Small-40</string>
+				<string>Icon-Small</string>
+			</array>
+		</dict>
+	</dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>Icon-167</string>
+				<string>Icon-76</string>
+				<string>Icon-72</string>
+				<string>Icon-Small-50</string>
+				<string>Icon-Small-40</string>
+				<string>Icon-Small</string>
+			</array>
+		</dict>
+	</dict>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleSupportedPlatforms</key>
