@@ -7,35 +7,69 @@
 #define MAP_H 24
 #define TEX_W 64
 #define TEX_H 64
+#define NUM_TEXTURES 11
+#define ZBUFFER_MAX 2048
 
 static const int worldMap[MAP_W][MAP_H] = {
-    {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
-    {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-    {4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-    {4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-    {4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-    {4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7},
-    {4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1},
-    {4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-    {4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1},
-    {4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-    {4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1},
-    {4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1},
-    {6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-    {8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
-    {6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-    {4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3},
-    {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-    {4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2},
-    {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-    {4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2},
-    {4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-    {4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
-    {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-    {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
+    {8,8,8,8,8,8,8,8,8,8,8,4,4,6,4,4,6,4,6,4,4,4,6,4},
+    {8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
+    {8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,6},
+    {8,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6},
+    {8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
+    {8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,6,6,6,0,6,4,6},
+    {8,8,8,8,0,8,8,8,8,8,8,4,4,4,4,4,4,6,0,0,0,0,0,6},
+    {7,7,7,7,0,7,7,7,7,0,8,0,8,0,8,0,8,4,0,4,0,6,0,6},
+    {7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,0,0,0,0,0,6},
+    {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,0,0,0,0,4},
+    {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,6,0,6,0,6},
+    {7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,4,6,0,6,6,6},
+    {7,7,7,7,0,7,7,7,7,8,8,4,0,6,8,4,8,3,3,3,0,3,3,3},
+    {2,2,2,2,0,2,2,2,2,4,6,4,0,0,6,0,6,3,0,0,0,0,0,3},
+    {2,2,0,0,0,0,0,2,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
+    {2,0,0,0,0,0,0,0,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
+    {1,0,0,0,0,0,0,0,1,4,4,4,4,4,6,0,6,3,3,0,0,0,3,3},
+    {2,0,0,0,0,0,0,0,2,2,2,1,2,2,2,6,6,0,0,5,0,5,0,5},
+    {2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
+    {2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5},
+    {2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
+    {2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
+    {2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,5,5,5,5,5,5,5,5,5}
 };
 
-static unsigned char textures[8][TEX_W * TEX_H * 4];
+typedef struct {
+    double x;
+    double y;
+    int texture;
+} RcSprite;
+
+#define NUM_SPRITES 19
+static const RcSprite sprites[NUM_SPRITES] = {
+    {20.5, 11.5, 10},  /* green light in front of player start */
+    {18.5, 4.5,  10},
+    {10.0, 4.5,  10},
+    {10.0, 12.5, 10},
+    {3.5,  6.5,  10},
+    {3.5,  20.5, 10},
+    {3.5,  14.5, 10},
+    {14.5, 20.5, 10},
+    {18.5, 10.5, 9},
+    {18.5, 11.5, 9},
+    {18.5, 12.5, 9},
+    {21.5, 1.5,  8},
+    {15.5, 1.5,  8},
+    {16.0, 1.8,  8},
+    {16.2, 1.2,  8},
+    {3.5,  2.5,  8},
+    {9.5,  15.5, 8},
+    {10.0, 15.1, 8},
+    {10.5, 15.8, 8}
+};
+
+static unsigned char textures[NUM_TEXTURES][TEX_W * TEX_H * 4];
+static int spriteOrder[NUM_SPRITES];
+static double spriteDistance[NUM_SPRITES];
+static double zBuffer[ZBUFFER_MAX];
 
 static double posX, posY;
 static double dirX, dirY;
@@ -46,7 +80,7 @@ void rc_init(void) {
     dirX = -1.0;  dirY = 0.0;
     planeX = 0.0; planeY = 0.66;
 
-    for (int t = 0; t < 8; t++)
+    for (int t = 0; t < NUM_TEXTURES; t++)
         for (int y = 0; y < TEX_H; y++)
             for (int x = 0; x < TEX_W; x++) {
                 int xorcolor = (x * 256 / TEX_W) ^ (y * 256 / TEX_H);
@@ -72,7 +106,7 @@ void rc_init(void) {
 }
 
 void rc_set_texture(int slot, const unsigned char *rgba, int w, int h) {
-    if (slot < 0 || slot > 7) return;
+    if (slot < 0 || slot >= NUM_TEXTURES) return;
     unsigned char *dst = textures[slot];
     if (w == TEX_W && h == TEX_H) {
         memcpy(dst, rgba, TEX_W * TEX_H * 4);
@@ -97,6 +131,9 @@ void rc_render(unsigned char *out, int w, int h) {
     double rayDirX1 = dirX + planeX;
     double rayDirY1 = dirY + planeY;
 
+    const unsigned char *floorTex = textures[3];
+    const unsigned char *ceilTex = textures[6];
+
     for (int y = h / 2 + 1; y < h; y++) {
         double p = y - h / 2;
         double rowDistance = (0.5 * h) / p;
@@ -112,15 +149,11 @@ void rc_render(unsigned char *out, int w, int h) {
             int ty = ((int)(TEX_H * (floorY - cellY))) & (TEX_H - 1);
             floorX += floorStepX;
             floorY += floorStepY;
-            if (cellX < 0 || cellX >= MAP_W || cellY < 0 || cellY >= MAP_H) continue;
-            int texNum = worldMap[cellX][cellY] - 1;
-            if (texNum < 0 || texNum > 7) continue;
             int ti = (TEX_H * ty + tx) * 4;
-            const unsigned char *t = textures[texNum];
             unsigned char *fo = &out[(y * w + x) * 4];
-            fo[0] = t[ti]; fo[1] = t[ti + 1]; fo[2] = t[ti + 2]; fo[3] = 255;
+            fo[0] = floorTex[ti] >> 1; fo[1] = floorTex[ti + 1] >> 1; fo[2] = floorTex[ti + 2] >> 1; fo[3] = 255;
             unsigned char *co = &out[(yc * w + x) * 4];
-            co[0] = t[ti]; co[1] = t[ti + 1]; co[2] = t[ti + 2]; co[3] = 255;
+            co[0] = ceilTex[ti] >> 1; co[1] = ceilTex[ti + 1] >> 1; co[2] = ceilTex[ti + 2] >> 1; co[3] = 255;
         }
     }
 
@@ -182,6 +215,71 @@ void rc_render(unsigned char *out, int w, int h) {
             if (side == 1) { r >>= 1; g >>= 1; b >>= 1; }
             unsigned char *o = &out[(y * w + x) * 4];
             o[0] = r; o[1] = g; o[2] = b; o[3] = 255;
+        }
+
+        zBuffer[x] = perpWallDist;
+    }
+
+    double invDet = 1.0 / (planeX * dirY - dirX * planeY);
+    for (int i = 0; i < NUM_SPRITES; i++) {
+        spriteOrder[i] = i;
+        double dx = posX - sprites[i].x;
+        double dy = posY - sprites[i].y;
+        spriteDistance[i] = dx * dx + dy * dy;
+    }
+    for (int i = 0; i < NUM_SPRITES - 1; i++)
+        for (int j = 0; j < NUM_SPRITES - 1 - i; j++)
+            if (spriteDistance[j] < spriteDistance[j + 1]) {
+                double td = spriteDistance[j];
+                spriteDistance[j] = spriteDistance[j + 1];
+                spriteDistance[j + 1] = td;
+                int to = spriteOrder[j];
+                spriteOrder[j] = spriteOrder[j + 1];
+                spriteOrder[j + 1] = to;
+            }
+
+    for (int i = 0; i < NUM_SPRITES; i++) {
+        const RcSprite *s = &sprites[spriteOrder[i]];
+        double spriteX = s->x - posX;
+        double spriteY = s->y - posY;
+        double transformX = invDet * (dirY * spriteX - dirX * spriteY);
+        double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
+        if (transformY <= 0.1) continue;
+
+        int spriteScreenX = (int)((w / 2) * (1 + transformX / transformY));
+        int spriteHeight = abs((int)(h / transformY));
+        if (spriteHeight < 1) continue;
+        int drawStartY = -spriteHeight / 2 + h / 2;
+        if (drawStartY < 0) drawStartY = 0;
+        int drawEndY = spriteHeight / 2 + h / 2;
+        if (drawEndY >= h) drawEndY = h - 1;
+        int spriteWidth = spriteHeight;
+        int drawStartX = -spriteWidth / 2 + spriteScreenX;
+        if (drawStartX < 0) drawStartX = 0;
+        int drawEndX = spriteWidth / 2 + spriteScreenX;
+        if (drawEndX >= w) drawEndX = w - 1;
+        if (drawEndX <= drawStartX) continue;
+
+        int texNum = s->texture;
+        if (texNum < 0 || texNum >= NUM_TEXTURES) continue;
+        const unsigned char *tex = textures[texNum];
+
+        for (int stripe = drawStartX; stripe < drawEndX; stripe++) {
+            int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * TEX_W / spriteWidth) / 256;
+            if (texX < 0) texX = 0;
+            if (texX >= TEX_W) texX = TEX_W - 1;
+            if (stripe <= 0 || stripe >= w) continue;
+            if (transformY >= zBuffer[stripe]) continue;
+            for (int y = drawStartY; y < drawEndY; y++) {
+                int d = y * 256 - h * 128 + spriteHeight * 128;
+                int texY = ((d * TEX_H) / spriteHeight) / 256;
+                if (texY < 0 || texY >= TEX_H) continue;
+                int ti = (TEX_H * texY + texX) * 4;
+                unsigned int r = tex[ti], g = tex[ti + 1], b = tex[ti + 2];
+                if ((r | g | b) == 0) continue;
+                unsigned char *o = &out[(y * w + stripe) * 4];
+                o[0] = r; o[1] = g; o[2] = b; o[3] = 255;
+            }
         }
     }
 }

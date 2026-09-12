@@ -1,6 +1,6 @@
 # raycaster-ios10-demo
 
-Textured raycasting demo (Wolfenstein 3D style) for iOS 10, following [Lode's Computer Graphics Tutorial – Raycasting 2 (textures)](https://lodev.org/cgtutor/raycasting2.html). Built with [Theos](https://theos.dev) for a 32-bit iPad 4 (A6X, `armv7s`) running iOS 10.3.4.
+Textured raycasting demo (Wolfenstein 3D style) for iOS 10, following [Lode's Computer Graphics Tutorial – Raycasting 3 (sprites)](https://lodev.org/cgtutor/raycasting3.html). Built with [Theos](https://theos.dev) for a 32-bit iPad 4 (A6X, `armv7s`) running iOS 10.3.4.
 
 Programmatic UI, Auto Layout, full iPad rotation support, launch images, on-device controls, no third-party code signing required.
 
@@ -18,17 +18,17 @@ Rendered on iPad 4 (iOS 10.3.4) at 60 fps:
 
 - **◀ ▼ ▶ ▲** on-screen buttons — turn left / move back / turn right / move forward (hold to keep moving)
 - **Drag on the view** — smooth camera rotation
-- The core raycasting algorithm is exactly the one from the tutorial (DDA, perpendicular wall distance to avoid fisheye, wall textures loaded from the tutorial's PNG assets in `Resources/Textures/`, textured floor & ceiling casting, Y-side darkening)
+- The core raycasting algorithm is exactly the one from the tutorial (DDA, perpendicular wall distance to avoid fisheye, wall textures from `Resources/Textures/`, textured floor & ceiling casting, Y-side darkening, sprite casting via inverse camera matrix + 1D ZBuffer, far-to-near sorting, black = invisible)
 
 ## How it works
 
 | File | Role |
 |------|------|
-| `RaycasterCore.c` | Pure C port of the tutorial's textured raycasting: map, wall texture lookup (`wallX`, `texX`, `texY`), DDA loop, per-wall-stripe rendering, textured floor/ceiling casting (per-row `rowDistance`, mirrored sky/floor), movement + collision |
-| `RaycasterView.m` | Renders the RGBA buffer via `CGBitmapContext` + `CADisplayLink` at 60 fps, loads the 8 wall PNGs from the bundle into texture slots, applies input each tick |
+| `RaycasterCore.c` | Pure C port of the tutorial's sprites raycasting: map, wall texture lookup, DDA loop, textured floor & ceiling casting, 1D ZBuffer, sorted sprite casting (barrels, pillars, green lights), movement + collision |
+| `RaycasterView.m` | Renders the RGBA buffer via `CGBitmapContext` + `CADisplayLink` at 60 fps, loads the 11 PNGs (8 walls + 3 sprites) into texture slots, applies input each tick |
 | `RaycasterDemoViewController.m` | Control pad (4 buttons) + pan gesture for rotation, Auto Layout |
 | `Resources/` | `Info.plist`, launch images, `PkgInfo` |
-| `Resources/Textures/` | The tutorial's wall textures (`bluestone`, `colorstone`, `eagle`, `greystone`, `mossy`, `purplestone`, `redbrick`, `wood`) plus sprite art (`barrel`, `pillar`, `greenlight`) for the next tutorial steps |
+| `Resources/Textures/` | The tutorial's wall textures plus sprite art (`barrel`, `pillar`, `greenlight`) |
 
 ## Requirements
 
@@ -66,8 +66,8 @@ Non-jailbroken: sideload with Sideloadly / Impactor using an Apple ID.
 
 ## Screenshot
 
-The classic tutorial map (24x24) with the tutorial's real wall textures (bluestone, colorstone, eagle, greystone, mossy, purplestone, redbrick, wood) instead of generated patterns.
+The tutorial's raycasting 3 map (24x24) with the tutorial's texture order (`eagle`, `redbrick`, `purplestone`, `greystone`, `bluestone`, `mossy`, `wood`, `colorstone`) and 3 sprite types (19 barrels, pillars and green lights).
 
 ## Credits
 
-Raycasting algorithm, map and textures from [lodev.org](https://lodev.org/cgtutor/raycasting2.html) by Lode Vandevenne.
+Raycasting algorithm, map, textures and sprites from [lodev.org](https://lodev.org/cgtutor/raycasting3.html) by Lode Vandevenne.

@@ -46,9 +46,10 @@ static void SetTextureFromImage(int slot, UIImage *image) {
         CGColorSpaceRelease(space);
 
         rc_init();
-        NSArray<NSString *> *names = @[@"bluestone", @"colorstone", @"eagle",
-                                       @"greystone", @"mossy", @"purplestone",
-                                       @"redbrick", @"wood"];
+        NSArray<NSString *> *names = @[@"eagle", @"redbrick", @"purplestone",
+                                       @"greystone", @"bluestone", @"mossy",
+                                       @"wood", @"colorstone", @"barrel",
+                                       @"pillar", @"greenlight"];
         for (NSUInteger i = 0; i < names.count; i++) {
             NSString *path = [[NSBundle mainBundle] pathForResource:names[i]
                                                              ofType:@"png"
