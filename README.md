@@ -4,6 +4,14 @@ Textured raycasting demo (Wolfenstein 3D style) for iOS 10, ported from [Lode's 
 
 Programmatic UI, Auto Layout, full iPad rotation support, launch images, on-device controls, no third-party code signing required.
 
+## Demo
+
+Rendered on iPad 4 (iOS 10.3.4) at 60 fps:
+
+<video src="demo.mp4" controls></video>
+
+![RaycasterDemo screenshot](screenshot.png)
+
 ## Controls
 
 - **◀ ▼ ▶ ▲** on-screen buttons — turn left / move back / turn right / move forward (hold to keep moving)
