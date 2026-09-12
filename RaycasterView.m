@@ -4,6 +4,24 @@
 
 #define RBUF_WIDTH 320
 #define RBUF_HEIGHT 200
+#define RTEX 64
+
+static void SetTextureFromImage(int slot, UIImage *image) {
+    CGImageRef cg = [image CGImage];
+    if (!cg) return;
+    unsigned char *buf = malloc(RTEX * RTEX * 4);
+    CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(buf, RTEX, RTEX, 8, RTEX * 4,
+                                             space, kCGImageAlphaPremultipliedLast);
+    if (ctx) {
+        CGContextClearRect(ctx, CGRectMake(0, 0, RTEX, RTEX));
+        CGContextDrawImage(ctx, CGRectMake(0, 0, RTEX, RTEX), cg);
+        rc_set_texture(slot, buf, RTEX, RTEX);
+        CGContextRelease(ctx);
+    }
+    CGColorSpaceRelease(space);
+    free(buf);
+}
 
 @implementation RaycasterView {
     CGContextRef _ctx;
@@ -28,6 +46,16 @@
         CGColorSpaceRelease(space);
 
         rc_init();
+        NSArray<NSString *> *names = @[@"bluestone", @"colorstone", @"eagle",
+                                       @"greystone", @"mossy", @"purplestone",
+                                       @"redbrick", @"wood"];
+        for (NSUInteger i = 0; i < names.count; i++) {
+            NSString *path = [[NSBundle mainBundle] pathForResource:names[i]
+                                                             ofType:@"png"
+                                                        inDirectory:@"Textures"];
+            if (!path) continue;
+            SetTextureFromImage((int)i, [UIImage imageWithContentsOfFile:path]);
+        }
         _dirty = YES;
     }
     return self;

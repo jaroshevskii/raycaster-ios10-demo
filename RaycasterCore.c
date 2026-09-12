@@ -1,5 +1,6 @@
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 #include "RaycasterCore.h"
 
 #define MAP_W 24
@@ -68,6 +69,24 @@ void rc_init(void) {
                 dst[2] = c & 0xff;
                 dst[3] = 255;
             }
+}
+
+void rc_set_texture(int slot, const unsigned char *rgba, int w, int h) {
+    if (slot < 0 || slot > 7) return;
+    unsigned char *dst = textures[slot];
+    if (w == TEX_W && h == TEX_H) {
+        memcpy(dst, rgba, TEX_W * TEX_H * 4);
+        return;
+    }
+    for (int y = 0; y < TEX_H; y++) {
+        int sy = (y * h) / TEX_H;
+        for (int x = 0; x < TEX_W; x++) {
+            int sx = (x * w) / TEX_W;
+            const unsigned char *s = &rgba[(sy * w + sx) * 4];
+            unsigned char *d = &dst[(y * TEX_W + x) * 4];
+            d[0] = s[0]; d[1] = s[1]; d[2] = s[2]; d[3] = 255;
+        }
+    }
 }
 
 void rc_render(unsigned char *out, int w, int h) {
