@@ -1,0 +1,5 @@
+.theos/
+Payload/
+*.ipa
+.DS_Store
+saved/

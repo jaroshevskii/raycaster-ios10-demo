@@ -1,0 +1,8 @@
+Package: com.example.raycasterdemo
+Name: RaycasterDemo
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Textured raycasting demo ported from lodev.org/cgtutor/raycasting.html for iOS 10
+Maintainer: jaroshevskii
+Author: jaroshevskii
+Section: Demos

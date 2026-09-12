@@ -1,0 +1,92 @@
+#import "RaycasterView.h"
+#import "RaycasterCore.h"
+#import <QuartzCore/QuartzCore.h>
+
+#define RBUF_WIDTH 320
+#define RBUF_HEIGHT 200
+
+@implementation RaycasterView {
+    CGContextRef _ctx;
+    unsigned char *_pixels;
+    CADisplayLink *_link;
+    CFTimeInterval _last;
+    CGFloat _extraTurn;
+    BOOL _dirty;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor blackColor];
+        self.layer.contentsGravity = kCAGravityResizeAspect;
+        self.contentMode = UIViewContentModeRedraw;
+
+        _pixels = calloc(RBUF_WIDTH * RBUF_HEIGHT * 4, 1);
+        CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
+        _ctx = CGBitmapContextCreate(_pixels, RBUF_WIDTH, RBUF_HEIGHT, 8,
+                                     RBUF_WIDTH * 4, space, kCGImageAlphaPremultipliedLast);
+        CGColorSpaceRelease(space);
+
+        rc_init();
+        _dirty = YES;
+    }
+    return self;
+}
+
+- (void)start {
+    if (_link) return;
+    _last = CACurrentMediaTime();
+    _link = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick:)];
+    [_link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+}
+
+- (void)stop {
+    [_link invalidate];
+    _link = nil;
+}
+
+- (void)applyExtraTurn:(CGFloat)angle {
+    _extraTurn += angle;
+}
+
+- (void)tick:(CADisplayLink *)link {
+    CFTimeInterval now = CACurrentMediaTime();
+    double dt = now - _last;
+    _last = now;
+    if (dt <= 0.0 || dt > 0.1) dt = 1.0 / 60.0;
+
+    double moveSpeed = dt * 4.0;
+    double rotSpeed = dt * 2.6;
+    CGFloat turn = _extraTurn;
+    _extraTurn = 0.0;
+
+    BOOL anyInput = self.moveForward || self.moveBackward || self.turnLeft || self.turnRight || turn != 0.0f;
+    if (anyInput) _dirty = YES;
+
+    rc_tick(self.moveForward, self.moveBackward, self.turnLeft, self.turnRight,
+            moveSpeed, rotSpeed, turn);
+
+    if (_dirty) {
+        rc_render(_pixels, RBUF_WIDTH, RBUF_HEIGHT);
+        CGImageRef img = CGBitmapContextCreateImage(_ctx);
+        if (img) {
+            self.layer.contents = (__bridge id)img;
+            CGImageRelease(img);
+        }
+        _dirty = NO;
+    }
+}
+
+- (void)willMoveToWindow:(UIWindow *)newWindow {
+    [super willMoveToWindow:newWindow];
+    if (newWindow) [self start];
+    else [self stop];
+}
+
+- (void)dealloc {
+    [self stop];
+    if (_ctx) CGContextRelease(_ctx);
+    if (_pixels) free(_pixels);
+}
+
+@end
