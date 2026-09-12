@@ -92,6 +92,38 @@ void rc_set_texture(int slot, const unsigned char *rgba, int w, int h) {
 void rc_render(unsigned char *out, int w, int h) {
     unsigned int *px = (unsigned int *)out;
     for (int i = 0; i < w * h; i++) px[i] = 0xFF000000u;
+    double rayDirX0 = dirX - planeX;
+    double rayDirY0 = dirY - planeY;
+    double rayDirX1 = dirX + planeX;
+    double rayDirY1 = dirY + planeY;
+
+    for (int y = h / 2 + 1; y < h; y++) {
+        double p = y - h / 2;
+        double rowDistance = (0.5 * h) / p;
+        double floorStepX = rowDistance * (rayDirX1 - rayDirX0) / w;
+        double floorStepY = rowDistance * (rayDirY1 - rayDirY0) / w;
+        double floorX = posX + rowDistance * rayDirX0;
+        double floorY = posY + rowDistance * rayDirY0;
+        int yc = h - y - 1;
+        for (int x = 0; x < w; x++) {
+            int cellX = (int)floorX;
+            int cellY = (int)floorY;
+            int tx = ((int)(TEX_W * (floorX - cellX))) & (TEX_W - 1);
+            int ty = ((int)(TEX_H * (floorY - cellY))) & (TEX_H - 1);
+            floorX += floorStepX;
+            floorY += floorStepY;
+            if (cellX < 0 || cellX >= MAP_W || cellY < 0 || cellY >= MAP_H) continue;
+            int texNum = worldMap[cellX][cellY] - 1;
+            if (texNum < 0 || texNum > 7) continue;
+            int ti = (TEX_H * ty + tx) * 4;
+            const unsigned char *t = textures[texNum];
+            unsigned char *fo = &out[(y * w + x) * 4];
+            fo[0] = t[ti]; fo[1] = t[ti + 1]; fo[2] = t[ti + 2]; fo[3] = 255;
+            unsigned char *co = &out[(yc * w + x) * 4];
+            co[0] = t[ti]; co[1] = t[ti + 1]; co[2] = t[ti + 2]; co[3] = 255;
+        }
+    }
+
     for (int x = 0; x < w; x++) {
         double cameraX = 2 * x / (double)w - 1;
         double rayDirX = dirX + planeX * cameraX;

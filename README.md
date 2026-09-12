@@ -18,13 +18,13 @@ Rendered on iPad 4 (iOS 10.3.4) at 60 fps:
 
 - **◀ ▼ ▶ ▲** on-screen buttons — turn left / move back / turn right / move forward (hold to keep moving)
 - **Drag on the view** — smooth camera rotation
-- The core raycasting algorithm is exactly the one from the tutorial (DDA, perpendicular wall distance to avoid fisheye, wall textures loaded from the tutorial's PNG assets in `Resources/Textures/`, Y-side darkening)
+- The core raycasting algorithm is exactly the one from the tutorial (DDA, perpendicular wall distance to avoid fisheye, wall textures loaded from the tutorial's PNG assets in `Resources/Textures/`, textured floor & ceiling casting, Y-side darkening)
 
 ## How it works
 
 | File | Role |
 |------|------|
-| `RaycasterCore.c` | Pure C port of the tutorial's textured raycasting: map, texture lookup (`wallX`, `texX`, `texY`), DDA loop, per-wall-stripe rendering into an RGBA buffer, movement + collision |
+| `RaycasterCore.c` | Pure C port of the tutorial's textured raycasting: map, wall texture lookup (`wallX`, `texX`, `texY`), DDA loop, per-wall-stripe rendering, textured floor/ceiling casting (per-row `rowDistance`, mirrored sky/floor), movement + collision |
 | `RaycasterView.m` | Renders the RGBA buffer via `CGBitmapContext` + `CADisplayLink` at 60 fps, loads the 8 wall PNGs from the bundle into texture slots, applies input each tick |
 | `RaycasterDemoViewController.m` | Control pad (4 buttons) + pan gesture for rotation, Auto Layout |
 | `Resources/` | `Info.plist`, launch images, `PkgInfo` |
