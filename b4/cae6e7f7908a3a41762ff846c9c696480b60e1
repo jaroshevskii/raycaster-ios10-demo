@@ -1,0 +1,19 @@
+Resources/Info.plist
+  s_7558a1251cd288::t_16ad6811a1245f 17-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b4cae6e7f7908a3a41762ff846c9c696480b60e1",
+  "prompts": {},
+  "sessions": {
+    "s_7558a1251cd288": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f6cf10f73ffeDFGln6nEi5J3wy",
+        "model": "big-pickle"
+      },
+      "human_author": "Sasha Jaroshevskii 🦄 <72662383+jaroshevskii@users.noreply.github.com>"
+    }
+  }
+}
