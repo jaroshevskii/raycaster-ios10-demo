@@ -1,0 +1,31 @@
+README.md
+  s_47165685b1424a::t_79cff9b997a1e0 3
+  s_47165685b1424a::t_d9cc951b4bf509 69
+  s_47165685b1424a::t_67c72978809ded 73
+  s_47165685b1424a::t_5c161fd1dbfd33 21
+  s_47165685b1424a::t_64da5b0d35c7fc 27-28,31
+RaycasterCore.c
+  s_47165685b1424a::t_7c8b54d1b0c485 3
+  s_47165685b1424a::t_ada2ae6a6c2179 74-91
+RaycasterCore.h
+  s_47165685b1424a::t_c102b68aca7fd3 5
+RaycasterView.m
+  s_47165685b1424a::t_1d973eaa129328 7-24
+  s_47165685b1424a::t_87de3ac54d3e31 49-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "50277476f9d5cc6ead8d95cc2a3158996dc4253a",
+  "prompts": {},
+  "sessions": {
+    "s_47165685b1424a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f6d7bd226ffe41YnXXdS0qRnzd",
+        "model": "big-pickle"
+      },
+      "human_author": "Sasha Jaroshevskii 🦄 <72662383+jaroshevskii@users.noreply.github.com>"
+    }
+  }
+}
