@@ -8,7 +8,9 @@ Programmatic UI, Auto Layout, full iPad rotation support, launch images, on-devi
 
 Rendered on iPad 4 (iOS 10.3.4) at 60 fps:
 
-<video src="demo.mp4" controls></video>
+![RaycasterDemo demo](demo.gif)
+
+[Watch the full video](demo.mp4)
 
 ![RaycasterDemo screenshot](screenshot.png)
 
